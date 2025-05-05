@@ -1,0 +1,30 @@
+version: '3.8'
+services:
+  mssql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sql_server
+    ports:
+      - '1433:1433'
+    environment:
+      SA_PASSWORD: Your!Passw0rd
+      ACCEPT_EULA: 'Y'
+    volumes:
+      - 'sql_data:/var/opt/mssql'
+    restart: unless-stopped
+  rabbitmq:
+    image: rabbitmq:4.1.0-management-alpine
+    container_name: rabbitmq
+    ports:
+      - '5672:5672'
+      - '15672:15672' # management UI
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    volumes:
+      - 'rabbitmq_data:/var/lib/rabbitmq'
+    restart: unless-stopped
+volumes:
+  sql_data:
+    driver: local
+  rabbitmq_data:
+    driver: local
