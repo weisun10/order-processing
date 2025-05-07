@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Mvc;
 using OrderProcessing.Application.Interfaces;
 using OrderProcessing.Domain.Entities;
 using OrderProcessing.Domain.ValueObjects;
+using OrderProcessing.Presentation.WebAPIs.Validation;
 
 namespace OrderProcessing.Presentation.WebAPIs.Controllers
 {
@@ -18,11 +19,17 @@ namespace OrderProcessing.Presentation.WebAPIs.Controllers
             _logger = logger;
         }
 
-        public record CreateOrderRequest(string CustomerId, List<OrderItem> Items);
-
         [HttpPost]
         public async Task<IActionResult> CreateOrder([FromBody] CreateOrderRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                var errors = ModelState.Values.SelectMany(v => v.Errors)
+                                              .Select(e => e.ErrorMessage)
+                                              .ToList();
+                return BadRequest(new { Errors = errors });
+            }
+
             _logger.LogInformation("Creating new order with parameters: {@Params}", request);
 
             var order = new Order(Guid.NewGuid(), request.CustomerId, DateTime.UtcNow);
