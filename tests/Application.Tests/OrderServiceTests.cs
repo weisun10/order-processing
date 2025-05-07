@@ -5,7 +5,7 @@ using OrderProcessing.Application.Services;
 using OrderProcessing.Domain.Entities;
 using OrderProcessing.Domain.Events;
 
-namespace OrderProcessing.Tests
+namespace OrderProcessing.Application.Tests
 {
     public class OrderServiceTests
     {
