@@ -25,7 +25,7 @@ namespace OrderProcessing.Application.Services
             _logger.LogInformation("Starting order creation for OrderId: {OrderId}", order.OrderId);
             try
             {
-                await _orderRepository.Add(order);
+                await _orderRepository.AddAsync(order);
                 _logger.LogInformation("Order {OrderId} saved successfully.", order.OrderId);
 
                 var totalItems = order.Items.Sum(i => i.Quantity);
@@ -36,9 +36,12 @@ namespace OrderProcessing.Application.Services
                     Timestamp = DateTime.UtcNow
                 };
 
-                await _messagePublisher.Publish(orderCreatedEvent);
-                _logger.LogInformation("Published OrderCreatedEvent for OrderId: {OrderId} with TotalItems: {TotalItems}",
-                    order.OrderId, totalItems);
+                if (_messagePublisher != null)
+                {
+                    await _messagePublisher.Publish(orderCreatedEvent);
+                    _logger.LogInformation("Published OrderCreatedEvent for OrderId: {OrderId} with TotalItems: {TotalItems}",
+                        order.OrderId, totalItems);
+                }
             }
             catch (Exception ex)
             {

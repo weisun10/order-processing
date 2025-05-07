@@ -18,8 +18,7 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<OrderDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
-                            providerOptions => providerOptions.EnableRetryOnFailure()));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddRebusWithRabbitMq(builder.Configuration, true);
 
@@ -30,7 +29,7 @@ builder.Services.AddTransient<IOrderService, OrderService>();
 builder.Services.AddControllers();
 builder.Services.AddSwaggerGen(options =>
 {
-    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Order API", Version = "v1" });
+    options.SwaggerDoc("v1", new OpenApiInfo { Title = "Orders API", Version = "v1" });
 });
 
 var app = builder.Build();

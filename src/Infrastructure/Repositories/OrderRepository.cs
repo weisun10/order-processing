@@ -1,5 +1,6 @@
 using OrderProcessing.Application.Interfaces;
 using OrderProcessing.Domain.Entities;
+using Microsoft.EntityFrameworkCore.Storage;
 
 namespace OrderProcessing.Infrastructure.Persistence
 {
@@ -12,7 +13,7 @@ namespace OrderProcessing.Infrastructure.Persistence
             _dbContext = dbContext;
         }
 
-        public async Task Add(Order order)
+        public async Task AddAsync(Order order)
         {
             _dbContext.Orders.Add(order);
             await _dbContext.SaveChangesAsync();

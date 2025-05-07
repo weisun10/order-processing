@@ -2,11 +2,13 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using OrderProcessing.Infrastructure.Persistence;
+using OrderProcessing.Application.Interfaces;
 using Serilog;
 using OrderProcessing.Infrastructure.Messaging;
 using OrderProcessing.Presentation.OrderEventService.Handlers;
 using Rebus.Config;
 using Microsoft.Extensions.DependencyInjection;
+using OrderProcessing.Application.Services;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
@@ -22,11 +24,12 @@ var host = Host.CreateDefaultBuilder(args)
     {
         // Register EF Core context for OrderEvents.
         services.AddDbContext<OrderEventDbContext>(options =>
-            options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection"),
-                                        providerOptions => providerOptions.EnableRetryOnFailure()));
+            options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
 
-        // Configure Rebus with your chosen transport.
         services.AddRebusWithRabbitMq(context.Configuration);
+
+        services.AddTransient<IOrderEventRepository, OrderEventRepository>();
+        services.AddTransient<IOrderEventService, OrderEventService>();
 
         // Auto-register message handlers.
         services.AutoRegisterHandlersFromAssemblyOf<OrderCreatedEventHandler>();

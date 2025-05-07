@@ -14,7 +14,6 @@ namespace OrderProcessing.Infrastructure.Messaging
 
         public async Task Publish<T>(T message)
         {
-            // TODO: check why target queue is bound with RebusDirect exchange
             await _bus.Send(message, new Dictionary<string, string>());
         }
     }
