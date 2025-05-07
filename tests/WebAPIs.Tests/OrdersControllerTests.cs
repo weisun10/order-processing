@@ -6,7 +6,7 @@ using OrderProcessing.Presentation.WebAPIs.Controllers;
 using OrderProcessing.Presentation.WebAPIs.Validation;
 using Microsoft.AspNetCore.Mvc;
 
-namespace WebAPIs.Tests
+namespace OrderProcessing.WebAPIs.Tests
 {
     public class OrdersControllerTests
     {
