@@ -32,11 +32,11 @@ var host = Host.CreateDefaultBuilder(args)
     })
     .Build();
 
-using (var scope = host.Services.CreateScope())
-{
-    var dbContext = scope.ServiceProvider.GetRequiredService<OrderEventDbContext>();
-    await dbContext.Database.MigrateAsync();
-}
+// using (var scope = host.Services.CreateScope())
+// {
+//     var dbContext = scope.ServiceProvider.GetRequiredService<OrderEventDbContext>();
+//     await dbContext.Database.MigrateAsync();
+// }
 
 Log.Information("[OrderEventService] Listening for OrderCreatedEvent ...");
 await host.RunAsync();
