@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.OpenApi.Models;
 using OrderProcessing.Infrastructure.Messaging;
 using OrderProcessing.Infrastructure.Persistence;
+using OrderProcessing.Infrastructure.Utils;
 using OrderProcessing.Application.Interfaces;
 using OrderProcessing.Application.Services;
 using Serilog;
@@ -9,7 +10,7 @@ using Serilog;
 var builder = WebApplication.CreateBuilder(args);
 
 // Load configuration
-builder.Configuration.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+builder.Configuration.AddJsonFile(ConfigHelper.GetAppSettingsPath(), optional: false, reloadOnChange: true);
 
 Log.Logger = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)

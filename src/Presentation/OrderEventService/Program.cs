@@ -9,11 +9,12 @@ using OrderProcessing.Presentation.OrderEventService.Handlers;
 using Rebus.Config;
 using Microsoft.Extensions.DependencyInjection;
 using OrderProcessing.Application.Services;
+using OrderProcessing.Infrastructure.Utils;
 
 var host = Host.CreateDefaultBuilder(args)
     .ConfigureAppConfiguration((hostingContext, config) =>
     {
-        config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+        config.AddJsonFile(ConfigHelper.GetAppSettingsPath(), optional: false, reloadOnChange: true);
     })
     .UseSerilog((hostingContext, services, loggerConfiguration) =>
     {
