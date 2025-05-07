@@ -1,6 +1,6 @@
 # Order Processing System
 
-This repository contains a C# Web API for an Order Processing System. The system includes two main applications: `WebAPIs` and `OrderEventService`.
+This repository contains a **fake** Order Processing System implemented in C#. The system includes two main applications: `WebAPIs` and `OrderEventService`.
 
 ## Docker Images
 
@@ -8,9 +8,9 @@ This repository contains a C# Web API for an Order Processing System. The system
 To build the Docker images for the applications, run the following commands:
 
 ```bash
-cd ./src
-docker build --no-cache -t webapis:latest -f Presentation/WebAPIs/Dockerfile .
-docker build --no-cache -t ordereventservice:latest -f Presentation/OrderEventService/Dockerfile .
+cd <solution root folder>
+docker build --no-cache -t webapis:latest -f src/Presentation/WebAPIs/Dockerfile .
+docker build --no-cache -t ordereventservice:latest -f src/Presentation/OrderEventService/Dockerfile .
 ```
 
 ### Start dependencies

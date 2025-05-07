@@ -1,9 +1,0 @@
-# directories
-**/bin/
-**/obj/
-**/out/
-**/logs/
-
-# files
-Dockerfile*
-**/*.md
