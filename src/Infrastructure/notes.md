@@ -1,3 +1,4 @@
+## EF Core
 - dotnet tool install --global dotnet-ef
 - add references to "Microsoft.EntityFrameworkCore.Design", "Microsoft.EntityFrameworkCore.Relational", "Microsoft.EntityFrameworkCore.SqlServer"
 - dotnet ef migrations add InitialCreate --context OrderDbContext -p Infrastructure -s Presentation/WebAPIs

@@ -18,7 +18,8 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 
 builder.Services.AddDbContext<OrderDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"),
+                            providerOptions => providerOptions.EnableRetryOnFailure()));
 
 builder.Services.AddRebusWithRabbitMq(builder.Configuration, true);
 

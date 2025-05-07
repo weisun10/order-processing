@@ -22,7 +22,8 @@ var host = Host.CreateDefaultBuilder(args)
     {
         // Register EF Core context for OrderEvents.
         services.AddDbContext<OrderEventDbContext>(options =>
-            options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection")));
+            options.UseSqlServer(context.Configuration.GetConnectionString("DefaultConnection"),
+                                        providerOptions => providerOptions.EnableRetryOnFailure()));
 
         // Configure Rebus with your chosen transport.
         services.AddRebusWithRabbitMq(context.Configuration);
