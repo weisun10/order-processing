@@ -23,22 +23,26 @@ services:
     volumes:
       - 'rabbitmq_data:/var/lib/rabbitmq'
     restart: unless-stopped
-#   webapis:
-#     image: webapis
-#     container_name: webapis
-#     ports:
-#       - "5032:8080"
-#     depends_on:
-#       - mssql
-#       - rabbitmq
-
-#   ordereventservice:
-#     image: ordereventservice
-#     container_name: ordereventservice
-#     depends_on:
-#       - mssql
-#       - rabbitmq
-#       - webapis
+  webapis:
+    build:
+      context: .
+      dockerfile: src/Presentation/WebAPIs/Dockerfile
+    container_name: webapis
+    image: webapis:latest
+    ports:
+      - "5032:8080"
+    depends_on:
+      - mssql
+      - rabbitmq
+  ordereventservice:
+    build:
+      context: .
+      dockerfile: src/Presentation/OrderEventService/Dockerfile
+    container_name: ordereventservice
+    image: ordereventservice:latest
+    depends_on:
+      - mssql
+      - rabbitmq
 volumes:
   sql_data:
     driver: local

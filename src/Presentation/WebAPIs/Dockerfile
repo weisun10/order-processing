@@ -14,6 +14,7 @@ WORKDIR /app
 
 # Copy the build output from the build stage
 COPY --from=build /out .
+COPY --from=build /app/Presentation/appsettings-container.json /app/appsettings.json
 
 ENV ASPNETCORE_HTTP_PORTS=8080
 EXPOSE 8080
