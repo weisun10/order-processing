@@ -38,8 +38,8 @@ services:
     build:
       context: .
       dockerfile: src/Presentation/OrderEventService/Dockerfile
-    container_name: ordereventservice
     image: ordereventservice:latest
+    scale: 2
     depends_on:
       - mssql
       - rabbitmq
