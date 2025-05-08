@@ -15,6 +15,13 @@ The system depends on **RabbitMQ** and **SQL Server**.
 
 It is recommended to run these services as **Docker containers**. Refer to the `"mssql"` and `"rabbitmq"` services defined in **compose.yaml**.
 
+## Database schema
+Run below comand to create schema:
+```bash
+dotnet ef database update --context OrderDbContext -p src/Infrastructure -s src/Presentation/WebAPIs
+dotnet ef database update --context OrderEventDbContext -p src/Infrastructure -s src/Presentation/OrderEventService
+```
+
 ## Configuration
 Refer to **`src/Presentation/appsettings.json`** for details on logging, credentials, and connection strings.
 
