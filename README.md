@@ -46,3 +46,26 @@ dotnet OrderEventService.dll
 
 ### Interacting with the System
 Swagger UI: [Swagger Documentation](http://127.0.0.1:5032/swagger/index.html)
+
+Sample payload
+```json
+{
+  "customerId": "123456",
+  "items": [
+    {
+      "productId": "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "quantity": 3
+    },
+    {
+      "productId": "4fa85f64-5717-4562-b3fc-2c963f66afa6",
+      "quantity": 4
+    }
+  ]
+}
+```
+
+### Notes
+1. The `ordereventservice` service has two replicas.
+2. To view OrderEvent data, you can either:
+    - Check the output logs from OrderEventService containers
+    - Connect to the Orders database using a database client
