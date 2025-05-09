@@ -43,6 +43,17 @@ services:
     depends_on:
       - mssql
       - rabbitmq
+  orderpages:
+    build:
+      context: .
+      dockerfile: src/Presentation/OrderPages/Dockerfile
+    container_name: orderpages
+    image: orderpages:latest
+    ports:
+      - "5033:8081"
+    depends_on:
+      - mssql
+      - rabbitmq
 volumes:
   sql_data:
     driver: local
