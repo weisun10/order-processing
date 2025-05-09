@@ -1,0 +1,60 @@
+@page "/orderevents"
+@rendermode InteractiveServer
+
+@using OrderProcessing.Application.Interfaces
+@using OrderProcessing.Application.Services
+@using OrderProcessing.Domain.Entities
+@implements IDisposable
+
+<PageTitle>Order Events</PageTitle>
+
+<h3>Order Events</h3>
+
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Order ID</th>
+            <th>Total Items</th>
+            <th>Created At</th>
+            <th>Processed At</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var orderEvent in orderEvents)
+        {
+            <tr>
+                <td>@orderEvent.OrderId</td>
+                <td>@orderEvent.TotalItems</td>
+                <td>@orderEvent.CreatedAt</td>
+                <td>@orderEvent.ProcessedAt</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    private List<OrderEvent> orderEvents = new();
+    private System.Threading.Timer? timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orderEvents = await OrderEventService.GetOrderEventsAsync();
+
+        timer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                orderEvents = await OrderEventService.GetOrderEventsAsync();
+                StateHasChanged();
+            });
+        }, null, 5000, 5000);
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    [Inject]
+    private IOrderEventQueryService OrderEventService { get; set; } = default!;
+}

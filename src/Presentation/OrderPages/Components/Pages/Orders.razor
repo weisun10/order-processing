@@ -1,0 +1,78 @@
+@page "/orders"
+@rendermode InteractiveServer
+
+@using OrderProcessing.Application.Interfaces
+@using OrderProcessing.Domain.Entities
+@using System.Text.Json
+@implements IDisposable
+
+<PageTitle>Orders</PageTitle>
+
+<h3>Orders</h3>
+
+<table class="table table-striped">
+    <thead class=".thead-light">
+        <tr>
+            <th>Order ID</th>
+            <th>Customer ID</th>
+            <th>Created At</th>
+            <th>Items</th>
+        </tr>
+    </thead>
+    <tbody>
+        @if (orders == null)
+        {
+            <tr>
+                <td colspan="3">Loading...</td>
+            </tr>
+        }
+        else if (!orders.Any())
+        {
+            <tr>
+                <td colspan="3">No orders found.</td>
+            </tr>
+        }
+        else
+        {
+            @foreach (var order in orders)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.CustomerId</td>
+                    <td>@order.CreatedAt</td>
+                    <td>
+                        <pre>@JsonSerializer.Serialize(order.Items, new JsonSerializerOptions { WriteIndented = true })</pre>
+                    </td>
+                </tr>
+            }
+        }
+
+    </tbody>
+</table>
+
+@code {
+    private List<Order> orders = new();
+    private System.Threading.Timer? timer;
+
+    protected override async Task OnInitializedAsync()
+    {
+        orders = await OrderService.GetOrdersAsync();
+
+        timer = new System.Threading.Timer(async _ =>
+        {
+            await InvokeAsync(async () =>
+            {
+                orders = await OrderService.GetOrdersAsync();
+                StateHasChanged();
+            });
+        }, null, 5000, 5000);
+    }
+
+    public void Dispose()
+    {
+        timer?.Dispose();
+    }
+
+    [Inject]
+    private IOrderQueryService OrderService { get; set; } = default!;
+}

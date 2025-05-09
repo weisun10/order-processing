@@ -16,7 +16,9 @@ namespace OrderProcessing.Infrastructure.Queries
 
         public async Task<List<OrderEvent>> GetOrderEventsAsync()
         {
-            return await _dbContext.OrderEvents.ToListAsync();
+            return await _dbContext.OrderEvents
+                .OrderByDescending(e => e.CreatedAt)
+                .ToListAsync();
         }
     }
 }
